@@ -10,7 +10,7 @@ on:
 jobs:
   test-runner:
     name: Vérification du runner
-    runs-on: ${vars.LINUX_RUNNER}
+    runs-on: ${{ vars.LINUX_RUNNER }}
 
     steps:
       - name: 1 - Vérifier le runner
