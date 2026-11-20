@@ -1,0 +1,46 @@
+
+name: Test Self-Hosted Runner
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  test-runner:
+    name: Vérification du runner
+    runs-on: ${vars.LINUX_RUNNER}
+
+    steps:
+      - name: 1 - Vérifier le runner
+        run: |
+          echo "Runner opérationnel"
+          echo "Hostname: $(hostname)"
+          echo "User: $(whoami)"
+
+      - name: 2 - Vérifier le système
+        run: |
+          uname -a
+          echo "OS: $RUNNER_OS"
+          echo "Architecture: $RUNNER_ARCH"
+
+      - name: 3 - Vérifier les outils
+        run: |
+          git --version
+          curl --version
+          python3 --version
+
+      - name: 4 - Tester l'exécution
+        run: |
+          mkdir -p test-runner
+          echo "Hello GitHub Runner" > test-runner/test.txt
+          cat test-runner/test.txt
+
+      - name: 5 - Vérifier le résultat
+        run: |
+          test -f test-runner/test.txt
+          echo "Tous les tests sont OK !"
+
+      - name: 6 - Fin du workflow
+        run: echo "RUNNER TEST PASSED"
